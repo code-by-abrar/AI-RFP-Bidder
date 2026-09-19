@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Bids AI | Knowledge Base</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bolt"></i> Nexus Bids AI
+            </a>
+            <nav>
+                <a href="index.html">Dashboard</a>
+                <a href="dashboard.html">Performance</a>
+                <a href="knowledge.html" class="active">Knowledge Base</a>
+                <a href="analyze.html">Analyze RFP</a>
+            </nav>
+            <div class="user-action">
+                <button id="theme-toggle" class="theme-toggle"></button>
+                <span style="color: var(--text-muted); margin-right: 1.5rem; font-size: 0.9rem;">nexus_admin</span>
+                <a href="analyze.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Analysis
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header animate-fadeIn">
+            <div class="page-title">
+                <h1>Custom Knowledge Base</h1>
+                <p>Upload your company's past proposals, technical whitepapers, and brand guidelines to train the AI on your specific style.</p>
+            </div>
+        </div>
+
+        <div class="grid" style="grid-template-columns: 1fr 2fr; gap: 2rem;">
+            <!-- Upload Section -->
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; align-self: start;">
+                <h3 style="margin-bottom: 1.5rem;">Add New Document</h3>
+                <div id="drop-zone" class="upload-area" style="padding: 2rem; border: 2px dashed var(--border); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
+                    <i class="fas fa-file-upload" style="font-size: 2.5rem; color: var(--primary-light); margin-bottom: 1rem;"></i>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Click or drag & drop PDF files</p>
+                    <input type="file" id="know-file-input" hidden accept=".pdf">
+                </div>
+                <div id="upload-status" style="margin-top: 1rem; font-size: 0.85rem; display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Processing and indexing...
+                </div>
+            </div>
+
+            <!-- Documents List -->
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 0;">Indexed Documents</h3>
+                    <span id="doc-count" style="font-size: 0.8rem; background: var(--border); padding: 0.2rem 0.6rem; border-radius: 10px;">0 Files</span>
+                </div>
+                
+                <div id="docs-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Documents will be loaded here -->
+                    <div style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                        <i class="fas fa-folder-open fa-2x" style="margin-bottom: 1rem;"></i>
+                        <p>No documents uploaded yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.loadKnowledgeBase) window.loadKnowledgeBase();
+            
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('know-file-input');
+
+            dropZone.onclick = () => fileInput.click();
+            fileInput.onchange = async (e) => {
+                if (e.target.files.length > 0) {
+                    await window.uploadKnowledgeDoc(e.target.files[0]);
+                }
+            };
+
+            dropZone.ondragover = (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; };
+            dropZone.ondragleave = () => { dropZone.style.borderColor = 'var(--border)'; };
+            dropZone.ondrop = async (e) => {
+                e.preventDefault();
+                dropZone.style.borderColor = 'var(--border)';
+                if (e.dataTransfer.files.length > 0) {
+                    await window.uploadKnowledgeDoc(e.dataTransfer.files[0]);
+                }
+            };
+        });
+    </script>
+</body>
+</html>

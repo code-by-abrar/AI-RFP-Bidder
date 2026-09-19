@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Bids AI | Analyze RFP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: var(--surface);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--primary);
+            background: var(--surface-hover);
+            transform: scale(1.01);
+        }
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        .file-list {
+            margin-bottom: 2rem;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--surface);
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            border: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bolt"></i> Nexus Bids AI
+            </a>
+            <nav>
+                <a href="index.html">Dashboard</a>
+                <a href="dashboard.html">Performance</a>
+                <a href="knowledge.html">Knowledge Base</a>
+                <a href="analyze.html" class="active">Analyze RFP</a>
+            </nav>
+            <div class="user-action">
+                <button id="theme-toggle" class="theme-toggle"></button>
+                <span style="color: var(--text-muted); margin-right: 1.5rem; font-size: 0.9rem;">nexus_admin</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header animate-fadeIn" style="animation-delay: 0.1s;">
+            <div class="page-title">
+                <h1>Analyze New RFP</h1>
+                <p>Upload your RFP document (PDF, DOCX) and let Nexus AI extract requirements and generate a bid strategy.</p>
+            </div>
+        </div>
+
+        <div class="grid animate-fadeIn" style="grid-template-columns: 2fr 1fr; animation-delay: 0.2s;">
+            <div class="analysis-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem;">
+                <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-file-upload"></i> Upload RFP</h3>
+                
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h3>Drag & Drop RFP file here</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Support for PDF, Word, and Excel documents.</p>
+                    <input type="file" id="file-input" style="display: none;">
+                </div>
+
+                <div class="file-list" id="file-list"></div>
+
+                <div class="form-group">
+                    <label class="form-label">Project Title (Optional)</label>
+                    <input type="text" class="form-control" id="project-title" placeholder="e.g. Enterprise Cloud Infrastructure Migration">
+                </div>
+
+                <button type="button" class="btn btn-primary" id="analyze-btn" style="width: 100%; justify-content: center; padding: 1.2rem;">
+                    <i class="fas fa-brain"></i> Generate AI Bid Strategy
+                </button>
+            </div>
+
+            <div class="tips-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2rem;">
+                <h4 style="margin-bottom: 1rem; color: var(--primary-light);"><i class="fas fa-lightbulb"></i> Analysis Insights</h4>
+                <ul style="list-style: none; color: var(--text-muted); font-size: 0.9rem;">
+                    <li style="margin-bottom: 1.2rem;">
+                        <strong style="display: block; color: var(--text-main);">Technical Scope Extraction</strong>
+                        Our AI identifies specific tech stacks and infrastructure requirements.
+                    </li>
+                    <li style="margin-bottom: 1.2rem;">
+                        <strong style="display: block; color: var(--text-main);">Cost Estimation</strong>
+                        Resource allocation based on historical industry benchmarks.
+                    </li>
+                    <li style="margin-bottom: 1.2rem;">
+                        <strong style="display: block; color: var(--text-main);">Winning Pitch Generation</strong>
+                        Tailored executive summary highlighting your unique value proposition.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 7, 10, 0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column;">
+            <i class="fas fa-circle-notch fa-spin fa-4x" style="color: var(--primary); margin-bottom: 1.5rem;"></i>
+            <h2 style="margin-bottom: 0.5rem;">AI Engines Processing...</h2>
+            <p style="color: var(--text-muted);">Breaking down RFP requirements and computing estimations.</p>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script>
+        // Inline handling for file input since it's page specific
+        const uploadZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileList = document.getElementById('file-list');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        uploadZone.onclick = () => fileInput.click();
+
+        uploadZone.ondragover = (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        };
+
+        uploadZone.ondragleave = () => uploadZone.classList.remove('dragover');
+
+        uploadZone.ondrop = (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        };
+
+        fileInput.onchange = (e) => handleFiles(e.target.files);
+
+        function handleFiles(files) {
+            fileList.innerHTML = '';
+            Array.from(files).forEach(file => {
+                const div = document.createElement('div');
+                div.className = 'file-item';
+                div.innerHTML = `<i class="fas fa-file-pdf" style="margin-right: 1rem; color: var(--error);"></i> <span>${file.name}</span>`;
+                fileList.appendChild(div);
+            });
+        }
+
+        analyzeBtn.onclick = async (e) => {
+            e.preventDefault();
+            if (!fileInput.files.length) {
+                alert('Please upload an RFP file first.');
+                return;
+            }
+            
+            loadingOverlay.style.display = 'flex';
+            
+            // Logic handled in main.js
+            window.startRFPAnalysis(fileInput.files[0], document.getElementById('project-title').value);
+        };
+    </script>
+</body>
+</html>

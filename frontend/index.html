@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Bids AI | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bolt"></i> Nexus Bids AI
+            </a>
+            <nav>
+                <a href="index.html" class="active">Dashboard</a>
+                <a href="dashboard.html">Performance</a>
+                <a href="knowledge.html">Knowledge Base</a>
+                <a href="analyze.html">Analyze RFP</a>
+            </nav>
+            <div class="user-action">
+                <button id="theme-toggle" class="theme-toggle"></button>
+                <span style="color: var(--text-muted); margin-right: 1.5rem; font-size: 0.9rem;">nexus_admin</span>
+                <a href="analyze.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Analysis
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header animate-fadeIn" style="animation-delay: 0.1s;">
+            <div class="page-title">
+                <h1>Overview</h1>
+                <p>Welcome back, Nexus Prime. Your AI agents are working on 3 active RFPs.</p>
+            </div>
+            <div class="stats-row" style="display: flex; gap: 2rem;">
+                <div class="stat-item" style="text-align: right;">
+                    <div style="color: var(--text-muted); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Total Bids</div>
+                    <div id="stat-total-index" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-light);">--</div>
+                </div>
+                <div class="stat-item" style="text-align: right;">
+                    <div style="color: var(--text-muted); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Win Rate</div>
+                    <div id="stat-winrate-index" style="font-size: 1.5rem; font-weight: 700; color: var(--success);">--%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-hero animate-fadeIn" style="animation-delay: 0.2s; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; position: relative; overflow: hidden;">
+            <div style="position: relative; z-index: 2; max-width: 600px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Accelerate RFP Bidding with AI</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Upload complex RFP documents and let our AI engine break down technical requirements, estimate costs, and draft a winning pitch in seconds.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="analyze.html" class="btn btn-primary">Start New Analysis</a>
+                    <a href="#" class="btn btn-outline" style="background: transparent;">View Tutorial</a>
+                </div>
+            </div>
+            <i class="fas fa-robot" style="position: absolute; right: 2rem; bottom: -1rem; font-size: 12rem; color: rgba(255, 255, 255, 0.05); transform: rotate(-15deg); z-index: 1;"></i>
+        </div>
+
+        <!-- Compliance Auto-Filler Section -->
+        <section class="animate-fadeIn" style="animation-delay: 0.25s; margin-bottom: 3rem;">
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; display: flex; align-items: center; gap: 3rem;">
+                <div style="flex: 1;">
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-shield-alt" style="color: var(--primary);"></i> Compliance Auto-Filler</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6;">Upload massive Excel security questionnaires (SOC2, GDPR, IT Security). Our AI RAG Engine will search your company's knowledge base and auto-fill the answers for you instantly!</p>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="file" id="questionnaire-upload" accept=".xlsx, .xls" style="display: none;">
+                        <button onclick="document.getElementById('questionnaire-upload').click()" class="btn btn-primary" style="background: var(--bg-dark); border: 1px solid var(--primary);"><i class="fas fa-file-excel"></i> Select .xlsx File</button>
+                        <button id="btn-fill-questionnaire" class="btn btn-primary"><i class="fas fa-magic"></i> Auto-Fill Answers</button>
+                    </div>
+                    <div id="questionnaire-filename" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);"></div>
+                    <div id="questionnaire-status" style="margin-top: 1rem; font-size: 0.9rem; color: var(--primary-light); display: none;">
+                        <i class="fas fa-circle-notch fa-spin"></i> Processing questions against Knowledge Base... This may take a minute.
+                    </div>
+                </div>
+                <div style="flex: 1; display: flex; justify-content: flex-end; padding-right: 2rem;">
+                    <i class="fas fa-tasks" style="font-size: 8rem; color: rgba(16, 185, 129, 0.1);"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="animate-fadeIn" style="animation-delay: 0.3s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="font-size: 1.4rem;">Recent Proposals</h3>
+                <a href="#" style="color: var(--primary-light); text-decoration: none; font-size: 0.9rem; font-weight: 600;">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="grid" id="bids-grid">
+                <!-- Loader Placeholder -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <i class="fas fa-circle-notch fa-spin fa-2x" style="margin-bottom: 1rem;"></i>
+                    <p>Optimizing workspace and fetching latest bids...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 5rem; padding: 3rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+        <p>&copy; 2026 Nexus AI RFP Bidder. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

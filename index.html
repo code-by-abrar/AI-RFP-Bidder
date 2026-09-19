@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Bids AI | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Google Fonts Import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;700&display=swap');
+
+        :root {
+            --bg-light: #f3f3f2;
+            --dark-green: #0a3a2a;
+            --accent-yellow: #f5d130;
+            --text-muted: #5a6b63;
+            --border-color: #0a3a2a;
+        }
+
+        /* 1. Global Background with Grain/Noise Texture */
+        body {
+            background-color: var(--bg-light);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            color: var(--dark-green) !important;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 2. Massive, Bold Typography */
+        h1, h2, h3 {
+            font-family: 'Oswald', sans-serif !important;
+            text-transform: uppercase;
+            font-weight: 700 !important;
+            color: var(--dark-green) !important;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-top: 0;
+        }
+
+        h1 { font-size: 4rem !important; }
+        h2 { font-size: 3rem !important; }
+
+        /* 3. Top Navigation (Pill Shape) */
+        header {
+            padding: 20px 0;
+        }
+
+        header nav {
+            background-color: var(--dark-green);
+            padding: 6px;
+            border-radius: 50px;
+            display: flex;
+            gap: 5px;
+        }
+
+        header nav a {
+            color: var(--bg-light);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        header nav a.active, header nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--dark-green);
+        }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            color: var(--dark-green) !important;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 4. Buttons (Yellow Pill Buttons) */
+        .btn {
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            padding: 12px 24px !important;
+            transition: transform 0.2s;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-yellow) !important;
+            color: var(--dark-green) !important;
+            border: none !important;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--dark-green) !important;
+            color: var(--dark-green) !important;
+        }
+
+        /* 5. Overriding Dashboard Specifics */
+        #stat-total-index, #stat-winrate-index {
+            color: var(--dark-green) !important;
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem !important;
+        }
+
+        /* Hero Section */
+        .dashboard-hero {
+            background: transparent !important;
+            border: 3px solid var(--dark-green) !important;
+            border-radius: 16px !important;
+            box-shadow: 6px 6px 0px var(--dark-green);
+        }
+
+        .dashboard-hero p {
+            color: var(--text-muted) !important;
+            font-size: 1.1rem;
+        }
+
+        /* Compliance Section (Dark Green Block) */
+        section:nth-of-type(1) > div {
+            background-color: var(--dark-green) !important;
+            border: none !important;
+            border-radius: 16px !important;
+            color: var(--bg-light) !important;
+        }
+
+        section:nth-of-type(1) h2 {
+            color: var(--bg-light) !important;
+        }
+
+        section:nth-of-type(1) p {
+            color: #a0b5a9 !important; /* Lighter green for readability */
+        }
+        
+        section:nth-of-type(1) .btn-primary {
+            background-color: var(--accent-yellow) !important;
+            color: var(--dark-green) !important;
+        }
+
+        /* Utility constraints */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        i {
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bolt"></i> Nexus Bids AI
+            </a>
+            <nav>
+                <a href="index.html" class="active">Dashboard</a>
+                <a href="dashboard.html">Performance</a>
+                <a href="knowledge.html">Knowledge Base</a>
+                <a href="analyze.html">Analyze RFP</a>
+            </nav>
+            <div class="user-action" style="display: flex; align-items: center;">
+                <span style="color: var(--text-muted); margin-right: 1.5rem; font-size: 0.9rem; font-weight: 600;">nexus_admin</span>
+                <a href="analyze.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Analysis
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header animate-fadeIn">
+            <div class="page-title">
+                <h1>Overview</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Welcome back, Nexus Prime. Your AI agents are working on 3 active RFPs.</p>
+            </div>
+            <div class="stats-row" style="display: flex; gap: 3rem;">
+                <div class="stat-item" style="text-align: right;">
+                    <div style="color: var(--text-muted); font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">Total Bids</div>
+                    <div id="stat-total-index">12</div>
+                </div>
+                <div class="stat-item" style="text-align: right;">
+                    <div style="color: var(--text-muted); font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">Win Rate</div>
+                    <div id="stat-winrate-index">68%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-hero animate-fadeIn" style="padding: 3rem; margin-bottom: 3rem; position: relative; overflow: hidden;">
+            <div style="position: relative; z-index: 2; max-width: 650px;">
+                <h2>Accelerate RFP Bidding with AI</h2>
+                <p style="margin-bottom: 2rem;">Upload complex RFP documents and let our AI engine break down technical requirements, estimate costs, and draft a winning pitch in seconds.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="analyze.html" class="btn btn-primary">Start New Analysis</a>
+                    <a href="#" class="btn btn-outline">View Tutorial</a>
+                </div>
+            </div>
+            <i class="fas fa-robot" style="position: absolute; right: 2rem; bottom: -2rem; font-size: 14rem; color: rgba(10, 58, 42, 0.05); transform: rotate(-15deg); z-index: 1;"></i>
+        </div>
+
+        <section class="animate-fadeIn" style="margin-bottom: 4rem;">
+            <div style="padding: 3rem; display: flex; align-items: center; gap: 3rem;">
+                <div style="flex: 1;">
+                    <h2 style="font-size: 2.2rem; margin-bottom: 1rem;"><i class="fas fa-shield-alt" style="color: var(--accent-yellow);"></i> Compliance Auto-Filler</h2>
+                    <p style="margin-bottom: 2rem; line-height: 1.6; font-size: 1.1rem;">Upload massive Excel security questionnaires (SOC2, GDPR, IT Security). Our AI RAG Engine will search your company's knowledge base and auto-fill the answers for you instantly!</p>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="file" id="questionnaire-upload" accept=".xlsx, .xls" style="display: none;">
+                        <button onclick="document.getElementById('questionnaire-upload').click()" class="btn btn-outline" style="border-color: var(--accent-yellow) !important; color: var(--bg-light) !important;"><i class="fas fa-file-excel"></i> Select .xlsx File</button>
+                        <button id="btn-fill-questionnaire" class="btn btn-primary"><i class="fas fa-magic"></i> Auto-Fill Answers</button>
+                    </div>
+                    <div id="questionnaire-filename" style="margin-top: 0.5rem; font-size: 0.85rem; color: #a0b5a9;"></div>
+                    <div id="questionnaire-status" style="margin-top: 1rem; font-size: 0.9rem; color: var(--accent-yellow); display: none;">
+                        <i class="fas fa-circle-notch fa-spin"></i> Processing questions against Knowledge Base... This may take a minute.
+                    </div>
+                </div>
+                <div style="flex: 1; display: flex; justify-content: flex-end; padding-right: 2rem;">
+                    <i class="fas fa-tasks" style="font-size: 10rem; color: rgba(245, 209, 48, 0.1);"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="animate-fadeIn">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--dark-green); padding-bottom: 10px;">
+                <h3>Recent Proposals</h3>
+                <a href="#" style="color: var(--dark-green); text-decoration: none; font-size: 1rem; font-weight: 600; text-transform: uppercase;">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="grid" id="bids-grid">
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <i class="fas fa-circle-notch fa-spin fa-2x" style="margin-bottom: 1rem; color: var(--dark-green);"></i>
+                    <p style="font-size: 1.1rem; font-weight: 500;">Optimizing workspace and fetching latest bids...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 5rem; padding: 3rem 0; border-top: 2px solid var(--dark-green); text-align: center; color: var(--dark-green); font-size: 0.9rem; font-weight: 600;">
+        <p>&copy; 2026 Nexus AI RFP Bidder. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Bids AI | Performance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bolt"></i> Nexus Bids AI
+            </a>
+            <nav>
+                <a href="index.html">Dashboard</a>
+                <a href="dashboard.html" class="active">Performance</a>
+                <a href="analyze.html">Analyze RFP</a>
+                <a href="#">Settings</a>
+            </nav>
+            <div class="user-action">
+                <button id="theme-toggle" class="theme-toggle"></button>
+                <span style="color: var(--text-muted); margin-right: 1.5rem; font-size: 0.9rem;">nexus_admin</span>
+                <a href="analyze.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Analysis
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header animate-fadeIn">
+            <div class="page-title">
+                <h1>Performance Analytics</h1>
+                <p>Real-time insights into your bidding strategy and win rates.</p>
+            </div>
+        </div>
+
+        <div class="grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 3rem;">
+            <div class="detail-box">
+                <div style="color: var(--text-muted); font-size: 0.8rem; font-weight: 700;">TOTAL PROPOSALS</div>
+                <div id="stat-total" style="font-size: 1.8rem; font-weight: 700; color: var(--primary-light);">--</div>
+            </div>
+            <div class="detail-box">
+                <div style="color: var(--text-muted); font-size: 0.8rem; font-weight: 700;">WIN RATE</div>
+                <div id="stat-winrate" style="font-size: 1.8rem; font-weight: 700; color: var(--success);">--%</div>
+            </div>
+            <div class="detail-box">
+                <div style="color: var(--text-muted); font-size: 0.8rem; font-weight: 700;">WON REVENUE</div>
+                <div id="stat-revenue" style="font-size: 1.8rem; font-weight: 700; color: #fbbf24;">$--</div>
+            </div>
+            <div class="detail-box">
+                <div style="color: var(--text-muted); font-size: 0.8rem; font-weight: 700;">PENDING BIDS</div>
+                <div id="stat-pending" style="font-size: 1.8rem; font-weight: 700;">--</div>
+            </div>
+        </div>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2rem;">
+                <h3 style="margin-bottom: 2rem;">Bid Status Distribution</h3>
+                <div style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2rem;">
+                <h3 style="margin-bottom: 2rem;">Industry Focus</h3>
+                <div style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="industryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.loadAnalytics) window.loadAnalytics();
+        });
+    </script>
+</body>
+</html>
